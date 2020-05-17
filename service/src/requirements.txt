@@ -1,0 +1,4 @@
+pwntools
+ipython
+pycryptodomex
+click

@@ -1,0 +1,103 @@
+This file is getflag.def, from which is created getflag.c.
+It implements the builtin the getflag builtin in Bash.
+
+Copyright (C) 1987-2009 Free Software Foundation, Inc.
+
+This file is part of GNU Bash, the Bourne Again SHell.
+
+Bash is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Bash is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Bash.  If not, see <http://www.gnu.org/licenses/>.
+
+$PRODUCES getflag.c
+
+$BUILTIN getflag
+$DOCNAME getflag
+$FUNCTION getflag_builtin
+$SHORT_DOC getflag
+Get the flag.
+
+Exit Status:
+Returns the flag, if you are leet enough.
+$END
+
+// OOOhack
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <linux/limits.h>
+
+#define OOODEBUG 0
+
+extern char ooostate[32];
+extern int leftnum;
+extern oootoken[32];
+extern int aes_decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, unsigned char *iv, unsigned char *plaintext);
+
+int
+getflag_builtin (ignore)
+     char *ignore;
+{
+  char nulltoken[32];
+  memset(nulltoken, 0, 32);
+  if (memcmp(oootoken, nulltoken, 32) == 0) {
+    printf("[error] you need to execute this on the remote server\n");
+    return (0);
+  }
+
+  if (leftnum > 0) {
+    printf("There are still %d locks locked. No flag for you.\n", leftnum);
+  } else {
+#if OOODEBUG
+    printf("current state (enckey): ");
+    hexdump(ooostate, 32);
+#endif
+
+    FILE* f = fopen("/etc/ooobash/flag", "rb");
+    if (f == NULL) {
+      printf("[error]\n");
+      exit(1);
+    }
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
+
+    char *buf = (char *) malloc(fsize + 1);
+    fread(buf, 1, fsize, f);
+    fclose(f);
+
+    buf[fsize] = 0;
+
+    char *iv, *encflag;
+    iv = buf;
+    encflag = buf+16;
+
+    char flag[100];
+#if OOODEBUG
+    printf("before dec\n");
+    printf("flagsize: %d\n",  fsize);
+    printf("iv: ");
+    hexdump(iv, 16);
+    printf("encflag: ");
+    hexdump(encflag, fsize-16);
+    printf("ooostate: ");
+    hexdump(ooostate, 32);
+#endif
+
+    size_t flag_len = aes_decrypt(encflag, fsize-16, ooostate, iv, flag);
+    flag[flag_len] = '\0';
+
+    printf("You are now a certified bash reverser! The flag is %s\n", flag);
+  }
+  return (0);
+}

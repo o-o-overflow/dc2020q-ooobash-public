@@ -1,0 +1,7 @@
+
+
+
+
+
+
+if [ -n FOO ]; then cat xxx; fi

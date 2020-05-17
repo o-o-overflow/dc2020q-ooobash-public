@@ -1,0 +1,4 @@
+# run with ./bash stage1 from the dir of stage1
+export OOOENV=alsulkxjcn92
+cat stage2 | /bin/bash -L -i
+getflag

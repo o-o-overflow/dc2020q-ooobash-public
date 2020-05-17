@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# exec 2>/dev/null
+stdbuf -i0 -o0 -e0 /opt/schitzo 10 /bin/bash -i

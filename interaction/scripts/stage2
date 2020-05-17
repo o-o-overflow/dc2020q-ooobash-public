@@ -1,0 +1,52 @@
+# unlockbabylock
+unlockbabylock
+
+# badr3d1r
+set -o noclobber
+echo "xxx" > /tmp/badr3d1rasdfasdfkajladsfafd
+echo "xxx" > /tmp/badr3d1rasdfasdfkajladsfafd
+rm /tmp/badr3d1rasdfasdfkajladsfafd
+
+# verysneaky
+set -o sneaky
+echo "xxx" > /tmp/sadsfsdf.sneaky
+rm /tmp/sadsfsdf.sneaky
+
+# leetness (see exp2)
+# vneooo (see exp2)
+
+# eval
+# FIXME
+# echo -e "a\nb\nc" > /tmp/sadfkasdf
+# cat /tmp/sadfkasdf |
+a
+b
+c
+
+# ret
+(exit 57)
+
+# n3t
+echo xxx > /dev/tcp/localhost/53
+
+# sig
+# TODO multithread problems?
+kill -s USR1 $$ # $$ is the pid of current shell
+
+# yo
+alias yo='echo whatever'
+alias yo='echo yo!'
+
+# aro
+export ARO=xxx
+readonly ARO
+declare ARO=yyy
+
+# fnx
+function bumox { echo bumo; }
+bumo
+
+# best
+source ./stage3
+
+getflag
